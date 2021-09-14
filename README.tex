@@ -1,2 +1,497 @@
 # Dynamic_Voltage_Stability_Analysis
 
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.15}
+\begin{document}
+
+\begin{center}
+{\huge \textbf{Indian Institute of Technology (BHU) Varanasi}}
+\end{center}
+\begin{center}
+\includegraphics[width=3in,height=3in]{iitbhu}
+\end{center}
+\begin{center}
+{\LARGE Department of\\
+Electrical Engineering\\
+}
+\end{center}
+\begin{center}
+    {\large LAB REPORT OF\\
+    EEE-401\\ 
+    (Academic Year: 2021-2022)\\}
+\end{center}
+
+\begin{center}
+\textbf{\underline{Design and Simulation of Electrical Systems}}
+\end{center}
+\begin{center}
+\textbf{\underline{Topic-Inverted Pendulum}}
+\end{center}
+\begin{center}
+    \textbf{Submitted By}\\
+    1. Aayushi Kunwar (18085001)\\
+    2. Abhishek kumar (18085002)\\
+    3. Abhishek Kumar Sahay (18085003)\\
+\end{center}
+\begin{center}
+    \textbf{Under the guidance of}\\
+    Dr. Maria Thomas
+\end{center}
+
+\newpage
+\section{Abstract}
+\begin{center}
+    \includegraphics[width=3in,height=3in]{40435_2020_753_Fig1_HTML.png}
+\end{center}
+\begin{center}
+    Fig. An example of a typical Inverted Pendulum
+\end{center}
+{For at least fifty years, the inverted pendulum has been the most popular benchmark, among others, for teaching and researches in control theory and robotics. The summary of following papers presents the key motivations for the use of that system and explains, in details, the main reflections on how the inverted pendulum benchmark gives an effective and efficient application. Several real experiences, virtual models and web-based remote-control laboratories will be presented with emphasis on the practical design implementation of this system. A bibliographical survey of different design control approaches and trendy robotic problems will be presented through applications to the inverted pendulum system. In total, 3 references in the open literature, are compiled to provide an overall picture of historical, current and challenging developments based on the stabilization principle of the inverted pendulum.}
+
+\newpage
+\begin{flushleft}
+{\large Paper-1:}{ \url{ https://ieeexplore.ieee.org/abstract/document/6360606/}\\
+Year: 2012}
+\end{flushleft}
+{This paper, proposes to enhance the wealth of robotics and mechatronics and attempt to provide an overall picture of historical, current and trend developments in control theory and robotics based on its simple structure. The paper gives some of the insights of the following topics: The most common robotic benchmarks and the different versions of the inverted pendulum. The wealth of the inverted pendulum model in education. Some few real and virtual experiences will be exposed. Different control design techniques will be surveyed through application to this benchmark. Trendy robotic problems based in the inverted pendulum stabilization principle.\\\\}
+{The paper shows how the inverted pendulum has been a good example for understanding the linear feedback control theory to stabilize open loop systems. The simple structure of the system allows it to perform experimentally has a major impact on it. There are real control laboratories, virtual reality models and web-based laboratory for performing it remotely. And how many trends of the robotics are based on the inverted pendulum systems such as the Segway, the mobile wheeled inverted pendulum or the gait pattern generation for humanoid robots for stable walking. The paper concludes that throughout the history the inverted pendulum has a major impact from teaching to implementing in day-to-day examples in our life.
+\\}
+\begin{flushleft}
+{\large Paper-2:}{ \url{ https://ieeexplore.ieee.org/document/7161752}\\
+Year: 2015}
+\end{flushleft}
+{This paper describes the system, setup and application of the inverted pendulum systems.  IP is used to determine a modern control theory and technology and stabilize a pendulum at the upright unstable position. A round and hollow pole weight is settled to the cart through an axis. Expressions can be imitative interfacing cart motion and the pendulum using Newton's approach. IP is unstable without control, that is if the cart isn't moved to balance the pendulum then it will simply fall over. \\\\
+The given paper also explains the mathematical model and simulation of the inverted pendulum system. The paper used the Newton’s Law to determine the system equation that describes the system’s motion. Then, linearized these equations to get linear model equations and then simulated these linear models using MATLAB/Simulink. This paper planned three sorts of controllers (PID, Root locus, Frequency response) for the inverted pendulum framework and effectively adjusted it in computer simulations. And in the simulation results it was shown that these controllers were much better in the control of a single input and a single output (SISO) system.
+}
+\begin{flushleft}
+{\large Paper-3:}{ \url{ https://ieeexplore.ieee.org/document/7161752}\\
+Year: 2013}
+\end{flushleft}
+{•	A typical inverted pendulum system has been considered, and then that system has been converted to mathematical equations based on motion.\\
+•	Dynamic behaviour, stability condition, controllability, and observability have been discussed using the linearized model.\\
+•	MATLAB commands used:}
+                   $$Controllability_matrix=ctrb(A,B);$$
+                   $$rank_control=rank(Controllability_matrix),$$ 
+                   $$Observability_matrix = obsv(A,C);$$
+                   $$rank_observablity=rank(Observability_matrix);$$
+{•	A System is controllable if the rank of the controllability matrix of order (n*n) is equal to the n. A System is said to be Observable if the Rank of the Observability matrix of order (n*n) is equal to n.\\
+•	State feedback controller designed using.\\
+1.	Pole Placement Method.\\
+2.	Linear Quadratic Regulator (LQR) Method.\\}
+
+
+
+\newpage
+\section{Objective:}
+\begin{flushleft}
+{Inverted Pendulum System is unstable and highly nonlinear, for changing position of the cart one input is used – External force and have two outputs position of the cart and pendulum rod angle. \\
+A typical inverted pendulum system has been considered and then that system has been converted to mathematical equations based on motion. Then the equation has been linearized to analyze different parts of the control system. To evaluate and understand the different control strategies the analysis of a inverted pendulum control system is very effective.}
+\end{flushleft}
+\section{Mathematical Modelling Of Inverted Pendulum System : }
+\begin{center}
+    \includegraphics[width=2in,height=2in]{inverted-pendulum.png}
+\end{center}
+\begin{center}
+    Fig. An example of a typical Inverted Pendulum
+\end{center}
+% \LARGE 1-INTRODUCTION\\
+% \end{center}
+\begin{flushleft}
+{The equation of motion are derived by means of Lagrange Formula for mechanical system. \\
+\begin{flushleft}
+\begin{equation}
+\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}}\right)-\frac{\partial L}{\partial q}=Q
+\end{equation}
+\begin{flushleft}
+{where L is the Lagrangian function, Q is the generalized forces, and q is the generalized coordinates. The Lagrangian function L is defined as}
+$$L=T-V$$
+{where T is the kinetic energy and V is the potential energy.} 
+\end{flushleft}
+\end{flushleft}
+}
+\end{flushleft}
+
+\begin{flushleft} 
+{
+Let, \\
+$M$ : Mass of the cart \\
+$m$ : Mass of the pendulum \\
+$l$ : Length of the rod \\
+${\theta }$ : Angle between rod and y-axis \\
+$F$ : External force \\
+$I$ : Moment of inertia of pendulum
+}
+\end{flushleft}
+\begin{flushleft} {
+$x_m = x - l\sin{\theta}$ \\
+$y_m = l\cos{\theta}$ \\
+$\dot{x_m} = \dot{x} - l\cos{\theta}.\dot{\theta}$ \\
+$\dot{y_m} = -l\sin{\theta}.\dot{\theta}$ \\
+}
+\end{flushleft}
+
+\begin{equation}
+P.E. = mgy_m = mgl\cos{\theta}
+\end{equation}
+\begin{equation}
+K.E. = \frac{1}{2}M\dot{x^2} + \frac{1}{2}m(\dot{x^2_m} + \dot{y^2_m})+\frac{1}{2}I\dot{\theta^2}
+\end{equation}
+{Putting the above value of $y_m$ , $y_m$  , $\dot{x_m}$ and $\dot{y_m}$ in the equation $(3)$ we get , }
+% $$
+% K.E. = \frac{1}{2}M\dot{x^2} + \frac{1}{2}m(\dot{x^2} + l^2\cos^2{\theta}.\dot{\theta}^2 - 2\dot{x}l\cos{\theta}.\dot{\theta} +
+% l^2\sin^2{\theta}.\dot{\theta}^2 )
+% $$
+% $$
+% K.E. = \frac{1}{2}(M+m)\dot{x}^2 + \frac{1}{2}m(l^2\dot{\theta}^2 - 2\dot{x}l\cos{\theta}.\dot{\theta})
+% $$
+\begin{equation}
+K.E. = \frac{1}{2}(M+m)\dot{x^2} + \frac{1}{2}ml^2\dot{\theta}^2 - m\dot{x}l\cos{\theta}.\dot{\theta}+\frac{1}{2}I\dot{\theta^2}
+\end{equation}
+\begin{equation}
+L = K.E. - P.E. 
+\end{equation}
+{Substituting the value of Kinetic Energy and Potential Energy in equation $(5)$ we get,}
+$$L = \frac{1}{2}(M+m)\dot{x}^2 + \frac{1}{2}ml^2\dot{\theta}^2 - m\dot{x}\dot{\theta}l\cos{\theta}+\frac{1}{2}I\dot{\theta^2} - mgl\cos{\theta}$$
+{Generalized coordinates ; }\\
+$$q=\begin{bmatrix}
+x\\
+\theta
+\end{bmatrix} ;
+\theta=\begin{bmatrix}
+F\\
+0\\
+\end{bmatrix}$$
+% \textbf{Equation Of Motion :}\\
+\section{Equation Of Motion :}
+% {Now, equation of motion :}
+$$\frac{dL}{d\dot{x}} = (M+m)\dot{x} - m\dot{\theta}l\cos{\theta} $$
+$$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{x}}\right) = (M+m)\ddot{x} - m\ddot{\theta}l\cos{\theta} + m\dot{\theta}^2l\sin{\theta}$$
+$$\frac{dL}{dx} = 0$$
+$$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{x}}\right) - \frac{dL}{dx} = F - \frac{dD}{d\dot{x}}$$
+\begin{equation}
+(M+m)\ddot{x} - (ml\cos{\theta})\ddot{\theta} + ml\sin{\theta}.\dot{\theta}^2 + b\dot{x} = F
+\end{equation}
+$$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{dL}{d{\theta}} = 0$$
+{From this we get, }
+\begin{equation}
+(I+ml^2)\ddot{\theta} - ml\cos{\theta}\ddot{x} - mgl\sin{\theta} = 0
+\end{equation}
+{
+The above equation $(6)$ and $(7)$ are the equation of motion for the given system. }
+\begin{flushleft} 
+\end{flushleft}
+\begin{equation}
+(M+m)\ddot{x} - (ml\cos{\theta})\ddot{\theta} + ml\dot{\theta}^2\sin{\theta} + b\dot{x} = F
+\end{equation}
+\begin{equation}
+(I+ml^2)\ddot{\theta} - ml\cos{\theta}\ddot{x} - mgl\sin{\theta} = 0
+\end{equation}
+\begin{flushleft} {
+By linearizing above equation on the equilibrium point where $X = [0, 0, 0, 0]^T$ so it is coming out $\sin{\theta} = 0 $ that means $\theta = n\pi$ .We can see that when n is even the point are unstable equilibrium point and in other case the points are stable equilibrium point.\\
+So we need to stabilize the pendulum around the unstable equilibrium point that is the upright position . So linearizing the modal around $\theta = 0$ ,by using Taylor's series expansion.\\
+Therefore, for $\theta \approx 0 $ i.e. $\sin{\theta} = \theta , \cos{\theta} = 1$
+}
+\begin{equation}
+(M+m)\ddot{x} - ml\ddot{\theta} + b\dot{x} = F
+\end{equation}
+\begin{equation}
+(I+ml^2)\ddot{\theta} - ml\ddot{x} - mgl\theta = 0
+\end{equation}
+
+{Now we can convert the above given matrix in state space equation form as $\dot{X} = AX + BU$\\}
+\begin{center}
+   $X=\begin{bmatrix}
+x_1\\x_2\\x_3\\x_4\\
+\end{bmatrix} $ ,
+$\dot{X} =\begin{bmatrix}
+ \dot{x_1}\\ \dot{x_2}\\ \dot{x_3} \\ \dot{x4}\\
+ \end{bmatrix}$ and $U=F$
+\end{center}
+
+{where, \\
+$x_1 = \theta $ \\
+$x_2 = \dot{x_1} = \dot{\theta}$ \\
+$x_3 = x$ \\
+$x_4 = \dot{x_3} = \dot{x}$ \\
+$u=F$\\
+Finally , the following equations are derived
+}
+
+\begin{equation}
+(M+m)\dot{x_4} - ml\dot{x_2} + bx_4 = F
+\end{equation}
+\begin{equation}
+(I+ml^2)\dot{x_2} - ml\dot{x_4} - mglx_1 = 0
+\end{equation}
+
+{From equation 12 and 13,}
+\begin{equation}
+    \dot{x_2}=\frac{(m+M)mglx_1}{\beta}-\frac{mlbx_4}{\beta}+\frac{mlF}{\beta}
+\end{equation}
+\begin{equation}
+    \dot{x_4}=\frac{m^2l^2gx_1}{\beta}-\frac{b(I+ml^2)x_4}{\beta}+\frac{(I+ml^2)F}{\beta}
+\end{equation}
+
+
+{where $\beta=(m+M)I+Mml^2$}
+
+
+\section{state space representation :}
+% {state space representation:}\\
+$$\begin{bmatrix}
+\dot{x_1}\\
+\dot{x_2}\\
+\dot{x_3}\\
+\dot{x_4}\\
+\end{bmatrix}=\begin{bmatrix}
+0&1&0&0\\
+\frac{(m+M)mgl}{\beta}&0&0&\frac{-mlb}{\beta}\\
+0&0&0&1\\
+\frac{m^2l^2g}{\beta}&0&0&\frac{-b(I+ml^2)}{\beta}\\
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4
+\end{bmatrix}+
+\begin{bmatrix}
+0\\
+\frac{ml}{\beta}\\
+0\\
+\frac{(I+ml^2)}{\beta}
+\end{bmatrix}
+\begin{bmatrix}
+u
+\end{bmatrix}
+$$\\
+$$
+Y=\begin{bmatrix}
+1&0&0&0\\
+0&0&1&0\\
+\end{bmatrix}x+\begin{bmatrix}
+0
+\end{bmatrix}u
+$$
+\end{flushleft}
+
+\section{Transfer Function Of The System :}
+% \newpage
+{Now our next step is to get the transfer function of the system. For that, we must first take the Laplace transform of the system equations assuming zero initial conditions. The resulting Laplace equation are shown below:}
+$$(I+ml^2)\theta(s)s^2 - mgl\theta(s) = mlX(s)s^2$$
+$$(M+m)X(s)s^2+bX(s)s-ml\theta(s)s^2=F(s)$$
+{A transfer function represents the relationship between a single input and a single output at a time. To find our first transfer function for the output $\theta(s)$ and an input of $F(s)$ we need to eliminate $X(s)$ from the above equations. Solve the first equation for $X(s)$.}
+$$X(s)=\begin{bmatrix}\frac{I+ml^2}{ml}-\frac{g}{s^2}\end{bmatrix}\theta(s)$$
+{Then substitute the above in second equation}
+$$(M+m)\begin{bmatrix}\frac{I+ml^2}{ml}-\frac{g}{s^2}\end{bmatrix}\theta(s)s^2+b\begin{bmatrix}\frac{I+ml^2}{ml}-\frac{g}{s^2}\end{bmatrix}\theta(s)s-ml\theta(s)s^2=F(s)$$
+{Rearranging the transfer function,we get the following,}
+$$\frac{\theta(s)}{F(s)}=\frac{\frac{ml}{\beta}s^2}{s^4+\frac{b(I+ml^2)}{\beta}s^3-\frac{(M+m)mgl}{\beta}s^2-\frac{bmgl}{\beta}s}$$
+{where $\beta=IM+Im+Mml^2$.\\}
+{From the transfer function above it can be seen that there is both a pole and a zero at the origin. These can be canceled and the transfer function becomes the following.}
+$$\frac{\theta(s)}{F(s)}=\frac{\frac{ml}{\beta}s}{s^3+\frac{b(I+ml^2)}{\beta}s^2-\frac{(M+m)mgl}{\beta}s-\frac{bmgl}{\beta}}$$
+{So, the transfer function of the pendulum is given as}
+$$P_{pend}(s)=\frac{\theta(s)}{F(s)}=\frac{\frac{ml}{\beta}s}{s^3+\frac{b(I+ml^2)}{\beta}s^2-\frac{(M+m)mgl}{\beta}s-\frac{bmgl}{\beta}}   [\frac{rad}{N}]$$
+{Second, the transfer function with the cart position $X(s)$ as the output can be derived in a similar manner to arrive at the following.}
+$$P_{cart}(s)=\frac{X(s)}{F(s)}=\frac{\frac{(I+ml^2)s^2-gml}{\beta}}{s^4+\frac{b(I+ml^2)}{\beta}s^3-\frac{(M+m)mgl}{\beta}s^2-\frac{bmgl}{\beta}s}[\frac{m}{N}]$$
+% \newpage
+{Taking the Values of $M=0.5kg$, $m=0.2kg$, $I=0.006kg-m^2$, $b=0.1N/m/s$ and $l=0.3m$ we get, }
+$$A=\begin{bmatrix}
+0&1&0&0\\
+31.181&0&0&-0.454\\
+0&0&0&1\\
+2.672&0&0&-0.181\\
+\end{bmatrix},
+B=\begin{bmatrix}
+0\\4.545\\0\\1.818\\
+\end{bmatrix}$$
+{And, the transfer function we get is shown below,}
+$$P_{pend}(s)=\frac{\theta(s)}{F(s)}=\frac{4.545s}{s^3+0.181s^2-31.181s-4.454}$$
+$$P_{cart}(s)=\frac{X(s)}{F(s)}=\frac{1.818s^2-44.545}{s^4+0.181s^3-31.181s^2-4.454}$$
+\section{Stability Analysis :}
+% {\large \textbf{Stability analysis-}\\\\}
+{Eigen values of the system are $\lambda_1 = 0$ , $\lambda_2 = 5.56515343$ , $\lambda_3 = -5.60371312$ and $\lambda_4 = -0.14324031$\\}
+{So we can see mixed positive and negative real eigen values so the system is unstable.
+So we need to design a proper controller to stabilize it.\\\\}
+% {\large \textbf{Controllability and Observability - \\\\}}
+\section{Controllability and Observability :}
+{Controllability Matrix - \\}
+$$\begin{bmatrix}
+0.0&4.54&-0.8145&141.7052\\
+4.54&-0.8145&141.7052&-30.8778\\
+0.0&1.8100&-0.3290&12.1816\\
+1.8100&-0.3290&12.1816&-4.3893\\
+\end{bmatrix}$$
+{Observability Matrix - \\}
+$$\begin{bmatrix}
+1.0&0.0&0.0&0.0\\
+0.0&0.0&1.0&0.0\\
+0.0&1.0&0.0&0.0\\
+0.0&0.0&0.0&1.0\\
+31.18&0.0&0.0&-0.45\\
+2.67&0.0&0.0&-0.1818\\
+-1.2015&31.18&0.0&0.08181\\
+-0.485406&2.67&0.0&0.03305124\\
+\end{bmatrix}$$\\
+% \newpage
+{The rank of controllability matrix is 4 so the system has 0 uncontrollable state .It means the system is completely controllable. \\
+The rank of observability matrix is 4 so the system has 0 non-observable state. It means the system is completely observable.\\\\}
+
+
+% \newpage
+\section{Simulation And Results : }
+{The system has been analysed by applying different control techniques. \\
+Below is shown the step response of the system wrt angle and the position of the cart and can be seen that both are not converging to equilibrium point. Therefore it is not stable. 
+}
+\begin{center}
+\includegraphics[width=5in,height=2in]{StepResponse1.png}
+\end{center}
+\begin{center}
+\includegraphics[width=5in,height=2in]{StepResponse2.png}
+\end{center}
+
+{\large \textbf{State feedback control - \\\\}}
+{Simulated the impulse response and step response of
+the new system with specified state feedback control.\\
+Input state feedback $U=-Kx$ is applied ,and for calculating $K$ we used the characteristic equation for eigen values and equate to desired poles which is placed at a desired location to make the system stable.\\\\
+{\textbf{Pole placement Method - \\}}
+{
+For the second order under damped system($\zeta$<1), denominator is of the type;}\\
+$$S^2+2\zeta\omega_n+\omega^2_n=0$$\\
+{The settling time for second order and under damped system for 2\% steady state error}\\
+$$ Ts=\frac{4}{\zeta\omega_n} 
+$$\\
+
+{We limit the setting time within 1 sec(Ts=1) and plotted the responses for different values of $\zeta$ and $\omega_n$. Set the desired pole such that every pole position is greater than $\zeta\omega_n$ $Re[pole]<=\zeta\omega_n$\\}
+{let $\zeta=0.2$ then corresponding value of $\omega_n=\frac{4}{T_s\zeta}$\\}
+
+Impulse Response - \\\\
+With Respect To angle of the pendulum - \\
+\begin{center}
+%\includegraphics[width=4in,height=2in]{IRPPAngle.png}
+\includegraphics[width=4in,height=2in]{IRPPAngleComplex.png}
+\end{center}
+
+With Respect To Cart Position - \\
+\begin{center}
+%\includegraphics[width=4in,height=2in]{IRPPCart.png}
+\includegraphics[width=4in,height=2in]{IRPPCartComplex.png}
+\end{center}
+
+Step Response - \\\\
+With Respect To Angle of the Pendulum - \\
+\begin{center}
+%\includegraphics[width=4in,height=2in]{SRPPAngle.png}
+\includegraphics[width=4in,height=2in]{SRPPangleComplex.png}
+\end{center}
+
+With Respect To Cart Position - \\
+\begin{center}
+%\includegraphics[width=4in,height=2in]{SRPPCart.png}
+\includegraphics[width=4in,height=2in]{SRPPCartComplex.png}
+\end{center}
+
+
+Observation - \\\\
+$1.$ In the Impulse Response the system is stabilize to the external disturbance that is the Impulse Response as it comes to initial condition (equilibrium point) after some time. The more negative of the pole location, the response of the pendulum angle is faster to reach the equilibrium point, but it has a greater overshoot. \\\\
+$2.$ We can see that in the step response the position of the cart is not setting to the near equilibrium point or as the expected limit .\\\\
+Therefore we need to optimize the pole placement method so that both the output can stabilize after the external disturbance. Therefore apply Linear quadratic Regulator to optimize pole placement state feedback control. 
+}\\
+
+
+
+
+
+
+{\textbf{Linear Quadratic Regulator(LQR) control - \\\\}}
+This is the optimisation of pole placement state feedback controller In which K value is determined by LQR control method. By adjusting The value of Q matrix .As you can see that the overshoot occurs in less than 2 second and the maximum angular displacement of the pendulum is 5 degree and position is also in the range of 40cm so we can adjust these values by calibrating the controller design ,So in LQR this the difficulty for choosing the right matrix.\\
+So you can see that in the step response the position of the cart is not setting to the near equilibrium point or as the expected limit  ,So By adjusting the non-zero value of Q matrix we can do so, but it require greater control force U. 
+\newpage
+Step Response - \\\\ 
+\begin{center}
+\includegraphics[width=4in,height=2in]{LQRSRAngle.png}
+\includegraphics[width=4in,height=2in]{LQRSRCart.png}
+\end{center}
+
+As if we want to add more specified condition to control as the rise time and settling time and the steady state error so for that we need to go for PID controller design in that by adjusting the $K_p$ , $K_i$ , $K_d$ values we can get the specified output.\\
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+{\large \textbf{ PID Controller - \\}}
+
+{We are attempting to control the pendulum's position, which should return to the vertical after the initial disturbance, the reference signal we are tracking should be zero. This type of situation is often referred to as a Regulator problem. The external force applied to the cart can be considered as an impulsive disturbance. The schematic for this problem is depicted below.}
+
+\begin{center}
+    \includegraphics[width=3in,height=1.5in]{feedback_pend1.png}
+\end{center}
+% \newpage
+\begin{flushleft}
+{We may find it easier to analyze and design for this system if we first rearrange the schematic as follows.}
+\end{flushleft}
+\begin{center}
+    \includegraphics[width=3in,height=1.5in]{feedback_pend2.png}
+\end{center}
+{The resulting transfer function $T(s)$ for the closed-loop system from an input of force $F$ to an output of pendulum angle $\theta$ is then determined to be the following.}
+$$ T(s) = \frac{\theta(s)}{F(s)} = \frac{P_{pend}(s)}{1 + C(s)P_{pend}(s)} $$
+\begin{flushleft}
+{Then we try different values of $K_p$, $K_i$ and $K_d$ for tuning the PID controller until get the desired output.}
+\end{flushleft}
+{When we get the the perfect values for the PID controller for the pendulum angle its time for testing the cart position too. The diagram above was not entirely complete. The block representing the response of the cart's position $X$ was not included because that variable is not being controlled. It is interesting though, to see what is happening to the cart's position when the controller for the pendulum's angle $\theta$ is in place. To see this we need to consider the full system block diagram as shown in the following figure.}
+\begin{center}
+    \includegraphics[width=3in,height=1.5in]{feedback_pend3.png}
+\end{center}
+% \newpage
+\begin{flushleft}
+{We may find it easier to analyze and design for this system if we first rearrange the schematic as follows.}
+\end{flushleft}
+\begin{center}
+    \includegraphics[width=3in,height=1.6in]{feedback_pend4.png}
+\end{center}
+{In the above, the block $C(s)$ is the controller designed for maintaining the pendulum vertical. The closed-loop transfer function $T_2(s)$ from an input force applied to the cart to an output of cart position is, therefore, given by the following.}
+$$ T_2(s) = \frac{X(s)}{F(s)} = \frac{P_{cart}(s)}{1 + P_{pend}(s)C(s)}$$
+{\\The values used for obtaining the following graphs are:\\
+$K_p$=12.8479,  $K_d$=355.7339 and $K_i$=0.098254}
+\newpage
+
+{PID impusle response for angle}
+\begin{center}
+\includegraphics[width=5in,height=3in]{pidangle.png}    
+\end{center}
+{PID impulse response for Cart position.}
+\begin{center}
+\includegraphics[width=5in,height=3in]{pidposition.png} 
+\end{center}
+
+{
+Complete Python code can be found on this  
+\href{https://colab.research.google.com/drive/1Rln0c7YORMVwMl-ny6Y4jFIXjyOoNrah?usp=sharing}{link}.
+}
+\newpage
+\section{Reference :}
+{$1.$ The inverted Pendulum: A fundamental Benchmark in Control Theory and Robotics by Olfa Boubaker\\\\
+$2.$ Modeling and Simulation of the Inverted Pendulum Control System by Nahid Hasan, LI Ling, YUAN De-Cheng, JING Yuan-Wei\\\\
+$3.$ Design and Analysis of the Control of an Inverted Pendulum System by Matlab by Khizir Mahmud \\\\
+}
+
+
+\end{document}
