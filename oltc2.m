@@ -28,3 +28,20 @@ legend("x2 v/s x1","x1 v/s x2")
 xlabel("x1");
 ylabel("x2");
 
+
+figure(2)
+[x1,x2]=meshgrid(0.1:0.1:70)
+%figure(2),
+T1=6;
+title("Rate of Change of Turn Ratio of OLTC1")
+%rate of change of oltc1
+X11=(1/(T1*sqrt(Z1))).*(((((Y2+x2.^2))).*(V01.*x1.^2)-(H+(x2.^2)/Za).*((E*sqrt(Z1)).*x1) +(H+Y1*x2.^2).*V01)./(((x1.^2).*(x2.^2)+Y1*x2.^2+Y2*x1.^2+H)));
+T2=6;
+X21=(1/(T2*sqrt(Z2))).*(((((Y1+x1.^2))).*(V01.*x2.^2)-(H+(x1.^2)/Zb).*((E*sqrt(Z2)).*x2) +(H+Y1*x1.^2).*V01)./(((x1.^2).*(x2.^2)+Y1*x2.^2+Y2*x1.^2+H)));
+syms l1;
+%X11=(1/(T1*sqrt(Z1)))*(((Y2+l2^2)*(V01*l1.^2)-(H+(l2^2)/Za)*((E*sqrt(Z1))*l1) +(H+Y1*l2^2)*V01)/((l1^2)*(l2^2)+Y1*l2^2+Y2*l1^2+H));
+mesh(x1,x2, X11);
+figure(3)
+title("Rate of Change of Turn Ratio of OLTC2")
+mesh(x1,x2, X21);
+
